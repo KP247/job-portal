@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Available Jobs</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#0f172a;
+    color:white;
+    min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:#111827 !important;
+    padding:18px 0;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.navbar-brand{
+    font-size:1.8rem;
+    font-weight:700;
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:70px 20px 40px;
+}
+
+.page-title{
+    font-size:3.5rem;
+    font-weight:800;
+}
+
+.gradient-text{
+    background:linear-gradient(
+        90deg,
+        #60a5fa,
+        #a855f7
+    );
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero-text{
+    color:#cbd5e1;
+    margin-top:15px;
+}
+
+/* SEARCH */
+
+.search-box{
+    background:#1e293b;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 0 20px rgba(0,0,0,.25);
+}
+
+.search-box input{
+    background:#0f172a;
+    color:white;
+    border:none;
+}
+
+.search-box input:focus{
+    background:#0f172a;
+    color:white;
+    box-shadow:none;
+}
+
+/* STATS */
+
+.stats-card{
+    background:#1e293b;
+    border-radius:16px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 0 20px rgba(139,92,246,.15);
+}
+
+/* JOB CARDS */
+
+.job-card{
+    background:#1e293b;
+    border-radius:16px;
+    padding:25px;
+    transition:.3s;
+    height:100%;
+    box-shadow:0 0 20px rgba(0,0,0,.25);
+}
+
+.job-card:hover{
+    transform:translateY(-8px);
+}
+
+.job-title{
+    font-size:1.4rem;
+    font-weight:700;
+    color:white;
+}
+
+.job-info{
+    color:#cbd5e1;
+}
+
+.badge-custom{
+    background:#334155;
+    padding:8px 12px;
+    border-radius:20px;
+    color:white;
+}
+
+/* BUTTONS */
+
+.btn-edit{
+    background:#f59e0b;
+    border:none;
+    color:white;
+}
+
+.btn-edit:hover{
+    background:#d97706;
+}
+
+.btn-delete{
+    background:#ef4444;
+    border:none;
+}
+
+.btn-delete:hover{
+    background:#dc2626;
+}
+
+/* EMPTY */
+
+.empty-box{
+    background:#1e293b;
+    border-radius:16px;
+    padding:40px;
+    text-align:center;
+}
+
+/* FOOTER */
+
+footer{
+    margin-top:80px;
+    background:#111827;
+    padding:40px;
+    text-align:center;
+    border-top:1px solid rgba(255,255,255,.08);
+}
+
+@media(max-width:768px){
+
+.page-title{
+    font-size:2.5rem;
+}
+
+.navbar-brand{
+    font-size:1.4rem;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+
+<div class="container">
+
+<a class="navbar-brand" href="/">
+    💼 Job Portal
+</a>
+
+<div>
+
+    <a href="/" class="btn btn-outline-light me-2">
+        Home
+    </a>
+
+    <% if(isAdmin) { %>
+
+        <a href="/add-job" class="btn btn-outline-light me-2">
+            Add Job
+        </a>
+
+        <a href="/logout" class="btn btn-danger me-2">
+            Logout
+        </a>
+
+    <% } else { %>
+
+        <a href="/admin/login" class="btn btn-primary me-2">
+            Admin Login
+        </a>
+
+    <% } %>
+
+    <a href="/jobs" class="btn btn-outline-light">
+        View Jobs
+    </a>
+
+</div>
+
+
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<h1 class="page-title">
+    Explore
+    <span class="gradient-text">
+        Available Jobs
+    </span>
+</h1>
+
+<p class="hero-text">
+    Browse opportunities from top companies and find your next career move.
+</p>
+
+</section>
+
+<div class="container">
+
+<!-- SEARCH -->
+
+<div class="search-box mb-4">
+
+<form action="/jobs" method="GET">
+
+<div class="row g-3">
+
+<div class="col-md-10">
+
+<input
+type="text"
+name="search"
+class="form-control"
+placeholder="Search jobs by title..."
+value="<%= search %>">
+
+</div>
+
+<div class="col-md-2">
+
+<button class="btn btn-primary w-100">
+    Search
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats-card mb-5">
+
+<h4>Total Jobs Available</h4>
+
+<h2 class="mt-3">
+    <%= totalJobs %>
+</h2>
+
+<% if (search && search.trim() !== "") { %>
+
+<p class="mt-3">
+    Search Results Found:
+    <strong><%= jobs.length %></strong>
+</p>
+
+<% } %>
+
+</div>
+
+<!-- NO JOBS -->
+
+<% if (jobs.length === 0) { %>
+
+<div class="empty-box">
+
+<h3>🔍 No Jobs Found</h3>
+
+<p class="text-secondary mt-3">
+Try a different search keyword.
+</p>
+
+</div>
+
+<% } %>
+
+<!-- JOBS GRID -->
+
+<div class="row">
+
+<% jobs.forEach(job => { %>
+
+<div class="col-lg-4 col-md-6 mb-4">
+
+<div class="job-card">
+
+<h3 class="job-title">
+    <%= job.title %>
+</h3>
+
+<hr class="border-secondary">
+
+<p class="job-info">
+
+<strong>🏢 Company:</strong>
+<br>
+<%= job.company %>
+
+</p>
+
+<p class="job-info">
+
+<strong>📍 Location:</strong>
+<br>
+<%= job.location %>
+
+</p>
+
+<p class="job-info">
+
+<strong>📅 Posted:</strong>
+<br>
+
+<%= job.createdAt
+? job.createdAt.toLocaleDateString()
+: "N/A"
+%>
+
+</p>
+
+<div class="mt-3">
+
+<% if(isAdmin) { %>
+
+<a href="/edit-job/<%= job._id %>"
+   class="btn btn-warning">
+   Edit
+</a>
+
+<form
+ action="/delete-job/<%= job._id %>"
+ method="POST"
+ style="display:inline;"
+>
+
+<button
+ type="submit"
+ class="btn btn-danger"
+>
+ Delete
+</button>
+
+</form>
+
+<% } %>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+
+<h5>© 2026 Job Portal</h5>
+
+
+<p class="text-light mt-3">
+ALL RIGHTS RESERVED. 
+</p>
+
+<p class="text-secondary">
+Helping candidates connect with top companies.
+</p>
+
+</footer>
+
+</body>
+</html>
+```
