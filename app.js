@@ -187,7 +187,8 @@ app.get("/logout", (req, res) => {
 });
 
 
+const PORT = process.env.PORT || 3000;
 
-app.listen(3000, () => {
-    console.log("Server Started");
+app.listen(PORT, () => {
+    console.log(`Server Started on Port ${PORT}`);
 });
