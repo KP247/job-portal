@@ -16,10 +16,9 @@ const mongoose = require("mongoose");
 
 const app = express();
 
-
 app.use(
     session({
-        secret: "jobportal_secret_key",
+        secret: process.env.SESSION_SECRET || "jobportal_secret_key",
         resave: false,
         saveUninitialized: false
     })
@@ -127,29 +126,7 @@ app.get("/", (req, res) => {
     res.render("home");
 });
 
-app.get("/create-admin", async (req, res) => {
 
-    const existingAdmin = await Admin.findOne({
-        username: "admin"
-    });
-
-    if(existingAdmin){
-        return res.send("Admin Already Exists");
-    }
-
-    const hashedPassword =
-        await bcrypt.hash("admin123", 10);
-
-    const admin = new Admin({
-        username: "admin",
-        password: hashedPassword
-    });
-
-    await admin.save();
-
-    res.send("Admin Created Successfully");
-
-});
 
 app.post("/admin/login", async (req, res) => {
 
