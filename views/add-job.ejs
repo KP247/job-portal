@@ -110,6 +110,22 @@ body{
     color:#94a3b8;
 }
 
+select.form-control{
+
+    background:#0f172a;
+
+    color:white;
+
+}
+
+select.form-control option{
+
+    background:#0f172a;
+
+    color:white;
+
+}
+
 /* BUTTONS */
 
 .submit-btn{
@@ -287,6 +303,78 @@ type="text"
 name="location"
 class="form-control"
 placeholder="e.g. Bengaluru, India"
+required>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+    Job Description
+</label>
+
+<textarea
+name="description"
+class="form-control"
+rows="5"
+placeholder="Describe the job role, responsibilities, skills and qualifications..."
+required></textarea>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+    Salary
+</label>
+
+<input
+type="text"
+name="salary"
+class="form-control"
+placeholder="e.g. ₹6 - ₹8 LPA"
+required>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+    Job Type
+</label>
+
+<select
+name="jobType"
+class="form-control"
+required>
+
+    <option value="">Select Job Type</option>
+
+    <option value="Full Time">Full Time</option>
+
+    <option value="Internship">Internship</option>
+
+    <option value="Part Time">Part Time</option>
+
+    <option value="Remote">Remote</option>
+
+    <option value="Hybrid">Hybrid</option>
+
+</select>
+
+</div>
+
+<div class="mb-4">
+
+<label class="form-label">
+    Experience Required
+</label>
+
+<input
+type="text"
+name="experience"
+class="form-control"
+placeholder="e.g. Freshers / 1+ Years / 3+ Years"
 required>
 
 </div>
